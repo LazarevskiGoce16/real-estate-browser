@@ -1,0 +1,8 @@
+<div class="container">
+    <h1>Buildings</h1>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngFor="let building of buildings" class="building-item" [class.selected]="building.id === selectedBuildingId">
+        <h3 (click)="onBuildingSelect(building.id)">{{ building.name }}</h3>
+        <app-apartment-list *ngIf="building.id === selectedBuildingId" [buildingId]="building.id"></app-apartment-list>
+    </div>
+  </div>

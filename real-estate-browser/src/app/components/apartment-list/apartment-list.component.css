@@ -1,0 +1,22 @@
+.apartment-list {
+    margin-top: 10px;
+}
+  
+.error-message {
+    color: red;
+}
+  
+.apartment-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+  
+.apartment-item p {
+    margin: 0 0 10px 0;
+}
+  
+.apartment-item button {
+    margin-right: 10px;
+}

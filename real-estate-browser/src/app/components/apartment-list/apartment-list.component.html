@@ -1,0 +1,9 @@
+<div class="apartment-list">
+    <h2>Apartments</h2>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngFor="let apartment of apartments" class="apartment-item">
+        <p>Apartment {{ apartment.id }} - Status: {{ apartment.status }}</p>
+        <button (click)="bookApartment(apartment)" [disabled]="apartment.status !== 'available'">Book</button>
+        <button (click)="buyApartment(apartment)" [disabled]="apartment.status !== 'available'">Buy</button>
+    </div>
+  </div>

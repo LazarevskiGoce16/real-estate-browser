@@ -1,54 +1,114 @@
 {
-    "buildings": [
+  "buildings": [
     {
-        "id": 1,
-        "name": "Building A",
-        "apartments": [
-        { "id": 1, "status": "available" },
-        { "id": 2, "status": "sold" },
-        { "id": 3, "status": "booked" },
-        { "id": 4, "status": "available" }
-        ]
+      "id": "1",
+      "name": "Building A",
+      "apartments": [
+        {
+          "id": 1,
+          "status": "booked"
+        },
+        {
+          "id": 2,
+          "status": "sold"
+        },
+        {
+          "id": 3,
+          "status": "booked"
+        },
+        {
+          "id": 4,
+          "status": "booked"
+        }
+      ]
     },
     {
-        "id": 2,
-        "name": "Building B",
-        "apartments": [
-        { "id": 1, "status": "available" },
-        { "id": 2, "status": "available" },
-        { "id": 3, "status": "sold" },
-        { "id": 4, "status": "booked" }
-        ]
+      "id": "2",
+      "name": "Building B",
+      "apartments": [
+        {
+          "id": 1,
+          "status": "available"
+        },
+        {
+          "id": 2,
+          "status": "available"
+        },
+        {
+          "id": 3,
+          "status": "sold"
+        },
+        {
+          "id": 4,
+          "status": "booked"
+        }
+      ]
     },
     {
-        "id": 3,
-        "name": "Building C",
-        "apartments": [
-        { "id": 1, "status": "sold" },
-        { "id": 2, "status": "booked" },
-        { "id": 3, "status": "available" },
-        { "id": 4, "status": "sold" }
-        ]
+      "id": "3",
+      "name": "Building C",
+      "apartments": [
+        {
+          "id": 1,
+          "status": "sold"
+        },
+        {
+          "id": 2,
+          "status": "booked"
+        },
+        {
+          "id": 3,
+          "status": "available"
+        },
+        {
+          "id": 4,
+          "status": "sold"
+        }
+      ]
     },
     {
-        "id": 4,
-        "name": "Building D",
-        "apartments": [
-        { "id": 1, "status": "available" },
-        { "id": 2, "status": "available" },
-        { "id": 3, "status": "available" },
-        { "id": 4, "status": "available" }
-        ]
+      "id": "4",
+      "name": "Building D",
+      "apartments": [
+        {
+          "id": 1,
+          "status": "sold"
+        },
+        {
+          "id": 2,
+          "status": "sold"
+        },
+        {
+          "id": 3,
+          "status": "booked"
+        },
+        {
+          "id": 4,
+          "status": "available"
+        }
+      ]
     },
     {
-        "id": 5,
-        "name": "Building E",
-        "apartments": [
-        { "id": 1, "status": "sold" },
-        { "id": 2, "status": "sold" },
-        { "id": 3, "status": "booked" },
-        { "id": 4, "status": "booked" }
-        ]
+      "id": "5",
+      "name": "Building E",
+      "apartments": [
+        {
+          "id": 1,
+          "status": "sold"
+        },
+        {
+          "id": 2,
+          "status": "sold"
+        },
+        {
+          "id": 3,
+          "status": "booked"
+        },
+        {
+          "id": 4,
+          "status": "booked"
+        }
+      ]
     }
-    ]
+  ]
 }

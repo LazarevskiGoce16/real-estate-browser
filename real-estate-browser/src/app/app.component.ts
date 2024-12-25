@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { BuildingListComponent } from './components/building-list/building-list.component';
+import { ApartmentListComponent } from './components/apartment-list/apartment-list.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [BuildingListComponent, ApartmentListComponent, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'real-estate-browser';
-}
+export class AppComponent {}
