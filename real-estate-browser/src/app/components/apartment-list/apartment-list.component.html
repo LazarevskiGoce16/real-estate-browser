@@ -3,7 +3,16 @@
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngFor="let apartment of apartments" class="apartment-item">
         <p>Apartment {{ apartment.id }} - Status: {{ apartment.status }}</p>
-        <button (click)="bookApartment(apartment)" [disabled]="apartment.status !== 'available'">Book</button>
+        <button (click)="bookApartment(apartment, viewDate, addDays(viewDate, 3))" [disabled]="apartment.status !== 'available'">Book for 3 days</button>
         <button (click)="buyApartment(apartment)" [disabled]="apartment.status !== 'available'">Buy</button>
     </div>
-  </div>
+  
+    <h3>Booking Calendar</h3>
+    <!-- <div *ngIf="events.length > 0">
+        <mwl-calendar-month-view
+            [viewDate]="viewDate"
+            [events]="events"
+            [viewDateChange]="viewDateChanged(events)">
+        </mwl-calendar-month-view>
+    </div> -->
+</div>
