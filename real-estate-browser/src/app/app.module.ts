@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BuildingService } from './services/building.service';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -29,6 +29,7 @@ import { BuildingListComponent } from './components/building-list/building-list.
     RouterModule.forRoot(routes)
   ],
   providers: [BuildingService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class AppModule { }

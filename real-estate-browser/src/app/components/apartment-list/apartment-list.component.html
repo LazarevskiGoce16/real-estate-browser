@@ -8,11 +8,9 @@
     </div>
   
     <h3>Booking Calendar</h3>
-    <!-- <div *ngIf="events.length > 0">
-        <mwl-calendar-month-view
-            [viewDate]="viewDate"
-            [events]="events"
-            [viewDateChange]="viewDateChanged(events)">
-        </mwl-calendar-month-view>
-    </div> -->
+    <div class="calendar-container">
+        <full-calendar
+            [options]="calendarOptions">
+        </full-calendar>
+    </div>
 </div>

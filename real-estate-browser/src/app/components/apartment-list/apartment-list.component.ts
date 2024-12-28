@@ -1,23 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CalendarEvent, CalendarModule, CalendarView, CalendarUtils, CalendarCommonModule, DateAdapter, CalendarA11y, CalendarDateFormatter, CalendarEventTitleFormatter } from 'angular-calendar';
 import { BuildingService } from '../../services/building.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Apartment } from '../../models/building.model';
 import { Booking } from '../../models/booking.model';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarOptions } from '@fullcalendar/core';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
 @Component({
   selector: 'app-apartment-list',
   standalone: true,
-  imports: [CommonModule, CalendarModule, CalendarCommonModule],
-  providers: [
-    { provide: DateAdapter, useFactory: adapterFactory},
-    CalendarUtils,
-    CalendarA11y,
-    CalendarDateFormatter,
-    CalendarEventTitleFormatter
-  ],
+  imports: [CommonModule, FullCalendarModule],
   templateUrl: './apartment-list.component.html',
   styleUrls: ['./apartment-list.component.css']
 })
@@ -26,15 +21,25 @@ export class ApartmentListComponent implements OnInit {
   apartments: Apartment[] = [];
   bookings: Booking[] = [];
   errorMessage: string = '';
+  viewDate: Date = new Date();
 
-  viewDate: Date = new Date;
-  events: CalendarEvent[] = [];
-  view: CalendarView = CalendarView.Month;
-  CalendarView = CalendarView;
+  calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin, interactionPlugin],
+    initialView: 'dayGridMonth',
+    events: [],
+    editable: false,
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    }
+  };
 
   constructor(private buildingService: BuildingService, private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.initializeCalendarOptions();
+
     if (this.buildingId) {
       this.buildingService.getBuilding(this.buildingId).subscribe(
         building => {
@@ -48,6 +53,17 @@ export class ApartmentListComponent implements OnInit {
     )};
   }
 
+  initializeCalendarOptions(): void {
+    this.calendarOptions = {
+      plugins: [dayGridPlugin, interactionPlugin],
+      initialView: 'dayGridMonth',
+      events: [],
+      editable: false,
+      selectable: true,
+      select: this.handleDateSelect.bind(this),
+    };
+  }
+
   bookApartment(apartment: Apartment, startDate: Date, endDate: Date): void {
     const newBooking: Booking = {
       id: 0,
@@ -58,12 +74,14 @@ export class ApartmentListComponent implements OnInit {
 
     this.http.post<Booking>('http://localhost:3000/bookings', newBooking).subscribe(
       booking => {
-        this.events.push({
-          start: new Date(booking.startDate),
-          end: new Date(booking.endDate),
-          title: `Apartment ${booking.apartmentId} booked`,
-          color: { primary: '#e3bc08', secondary: '#fdf1ba'}
-        });
+        this.calendarOptions.events = [
+          ...this.calendarOptions.events as any,
+          {
+            title: `Apartment ${booking.apartmentId} booked`,
+            start: booking.startDate,
+            end: booking.endDate
+          }
+        ];
 
         apartment.status = 'booked';
         this.updateApartmentStatus(apartment);
@@ -86,20 +104,20 @@ export class ApartmentListComponent implements OnInit {
     return result;
   }
 
-  viewDateChanged(date: Date): void {
-    this.viewDate = date;
+  handleDateSelect(selectInfo: any): void {
+    console.log('Date selected:', selectInfo.startStr);
   }
 
   private loadBookings(): void {
     const bookingsUrl = `http://localhost:3000/bookings?apartmentId=${this.apartments.map(
       a => a.id).join('&apartmendId=')}`;
+
     this.http.get<Booking[]>(bookingsUrl).subscribe(
       bookings => {
-        this.events = bookings.map(booking => ({
-          start: new Date(booking.startDate),
-          end: new Date(booking.endDate),
+        this.calendarOptions.events = bookings.map(booking => ({
           title: `Apartment ${booking.apartmentId} booked`,
-          color: { primary: '#e3bc08', secondary: '#fdf1ba'}
+          start: booking.startDate,
+          end: booking.endDate
         }));
       },
       error => {
@@ -117,9 +135,10 @@ export class ApartmentListComponent implements OnInit {
         const apartmentIndex = building.apartments.findIndex(a => a.id === apartment.id);
         if (apartmentIndex !== -1) {
           building.apartments[apartmentIndex].status = apartment.status;
+
           this.buildingService.updateBuilding(building).subscribe(
             () => {
-              console.log('Successfully updated the building status!');
+              console.log(`Apartment ${apartment.id} status updated to ${apartment.status}`);
             },
             error => {
               this.errorMessage = `Error updating apartment status to ${apartment.status}`;
