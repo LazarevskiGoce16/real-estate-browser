@@ -1,6 +1,8 @@
 export interface Apartment {
     id: number;
     status: string;
+    bookPrice: number;
+    buyPrice: number;
 }
   
 export interface Building {

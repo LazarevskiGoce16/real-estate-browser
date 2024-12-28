@@ -24,6 +24,7 @@ export class BuildingListComponent implements OnInit, OnDestroy {
     this.subscription = this.buildingService.getBuildings().subscribe(
       data => {
         this.buildings = data;
+        console.log(data);
       },
       error => {
         this.errorMessage = 'Error fetching buildings';

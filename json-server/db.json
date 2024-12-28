@@ -6,19 +6,27 @@
       "apartments": [
         {
           "id": 1,
-          "status": "booked"
+          "status": "booked",
+          "bookPrice": 300,
+          "buyPrice": 15000
         },
         {
           "id": 2,
-          "status": "sold"
+          "status": "sold",
+          "bookPrice": 350,
+          "buyPrice": 18000
         },
         {
           "id": 3,
-          "status": "booked"
+          "status": "booked",
+          "bookPrice": 320,
+          "buyPrice": 17000
         },
         {
           "id": 4,
-          "status": "booked"
+          "status": "booked",
+          "bookPrice": 310,
+          "buyPrice": 16000
         }
       ]
     },
@@ -28,19 +36,27 @@
       "apartments": [
         {
           "id": 1,
-          "status": "available"
+          "status": "available",
+          "bookPrice": 250,
+          "buyPrice": 14000
         },
         {
           "id": 2,
-          "status": "available"
+          "status": "available",
+          "bookPrice": 270,
+          "buyPrice": 14500
         },
         {
           "id": 3,
-          "status": "sold"
+          "status": "sold",
+          "bookPrice": 260,
+          "buyPrice": 15000
         },
         {
           "id": 4,
-          "status": "booked"
+          "status": "booked",
+          "bookPrice": 290,
+          "buyPrice": 16000
         }
       ]
     },
@@ -50,19 +66,27 @@
       "apartments": [
         {
           "id": 1,
-          "status": "available"
+          "status": "available",
+          "bookPrice": 350,
+          "buyPrice": 20000
         },
         {
           "id": 2,
-          "status": "booked"
+          "status": "booked",
+          "bookPrice": 340,
+          "buyPrice": 19000
         },
         {
           "id": 3,
-          "status": "available"
+          "status": "available",
+          "bookPrice": 270,
+          "buyPrice": 16000
         },
         {
           "id": 4,
-          "status": "sold"
+          "status": "sold",
+          "bookPrice": 280,
+          "buyPrice": 16500
         }
       ]
     },
@@ -72,19 +96,27 @@
       "apartments": [
         {
           "id": 1,
-          "status": "sold"
+          "status": "sold",
+          "bookPrice": 300,
+          "buyPrice": 15500
         },
         {
           "id": 2,
-          "status": "sold"
+          "status": "sold",
+          "bookPrice": 320,
+          "buyPrice": 16500
         },
         {
           "id": 3,
-          "status": "booked"
+          "status": "booked",
+          "bookPrice": 310,
+          "buyPrice": 16000
         },
         {
           "id": 4,
-          "status": "available"
+          "status": "available",
+          "bookPrice": 250,
+          "buyPrice": 14000
         }
       ]
     },
@@ -94,19 +126,27 @@
       "apartments": [
         {
           "id": 1,
-          "status": "sold"
+          "status": "sold",
+          "bookPrice": 280,
+          "buyPrice": 15000
         },
         {
           "id": 2,
-          "status": "sold"
+          "status": "sold",
+          "bookPrice": 330,
+          "buyPrice": 17000
         },
         {
           "id": 3,
-          "status": "booked"
+          "status": "booked",
+          "bookPrice": 320,
+          "buyPrice": 16000
         },
         {
           "id": 4,
-          "status": "booked"
+          "status": "booked",
+          "bookPrice": 310,
+          "buyPrice": 15500
         }
       ]
     }
