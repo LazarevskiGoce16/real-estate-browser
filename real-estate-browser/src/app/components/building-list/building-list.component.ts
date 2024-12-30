@@ -4,11 +4,12 @@ import { BuildingService } from '../../services/building.service';
 import { Building } from '../../models/building.model';
 import { Subscription } from 'rxjs';
 import { ApartmentListComponent } from '../apartment-list/apartment-list.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-building-list',
   standalone: true,
-  imports: [CommonModule, ApartmentListComponent],
+  imports: [CommonModule, ApartmentListComponent, RouterModule],
   templateUrl: './building-list.component.html',
   styleUrls: ['./building-list.component.css']
 })

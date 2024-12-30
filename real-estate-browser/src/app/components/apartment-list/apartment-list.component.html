@@ -1,5 +1,6 @@
 <div class="apartment-list">
     <h2>Apartments</h2>
+    <button (click)="showDetails()">Details</button>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngFor="let apartment of apartments" class="apartment-item">
         <p>Apartment {{ apartment.id }} - Status: {{ apartment.status }}</p>

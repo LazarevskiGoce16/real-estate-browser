@@ -12,7 +12,7 @@
         },
         {
           "id": 2,
-          "status": "sold",
+          "status": "available",
           "bookPrice": 350,
           "buyPrice": 18000
         },
@@ -132,7 +132,7 @@
         },
         {
           "id": 2,
-          "status": "sold",
+          "status": "available",
           "bookPrice": 330,
           "buyPrice": 17000
         },

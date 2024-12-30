@@ -3,8 +3,8 @@ import { ApartmentListComponent } from './components/apartment-list/apartment-li
 import { BuildingListComponent } from './components/building-list/building-list.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/apartments', pathMatch: 'full'},
-    { path: 'apartments', component: ApartmentListComponent },
+    { path: '', redirectTo: '/buildings', pathMatch: 'full'},
     { path: 'buildings', component: BuildingListComponent },
-    { path: '**', redirectTo: '/apartments'}
+    { path: 'building/:id', component: ApartmentListComponent },
+    { path: '**', redirectTo: '/buildings'}
 ];

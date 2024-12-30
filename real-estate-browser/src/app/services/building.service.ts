@@ -8,7 +8,7 @@ import { Building } from '../models/building.model';
 })
 export class BuildingService {
 
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl: string = 'http://localhost:3000';
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +16,7 @@ export class BuildingService {
     return this.http.get<Building[]>(`${this.apiUrl}/buildings`);
   }
 
-  getBuilding(buildingId: number): Observable<Building> {
+  getBuildingById(buildingId: number): Observable<Building> {
     return this.http.get<Building>(`${this.apiUrl}/buildings/${buildingId}`);
   }
 

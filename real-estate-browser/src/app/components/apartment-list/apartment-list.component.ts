@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BuildingService } from '../../services/building.service';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Apartment } from '../../models/building.model';
 import { Booking } from '../../models/booking.model';
 import { CalendarOptions } from '@fullcalendar/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-apartment-list',
@@ -17,7 +18,9 @@ import interactionPlugin from '@fullcalendar/interaction';
   styleUrls: ['./apartment-list.component.css']
 })
 export class ApartmentListComponent implements OnInit {
-  @Input() buildingId?: number;
+  @Input() 
+  buildingId?: number;
+
   apartments: Apartment[] = [];
   bookings: Booking[] = [];
   errorMessage: string = '';
@@ -35,13 +38,17 @@ export class ApartmentListComponent implements OnInit {
     }
   };
 
-  constructor(private buildingService: BuildingService, private http: HttpClient) { }
+  constructor(
+    private buildingService: BuildingService, 
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.initializeCalendarOptions();
 
     if (this.buildingId) {
-      this.buildingService.getBuilding(this.buildingId).subscribe(
+      this.buildingService.getBuildingById(this.buildingId).subscribe(
         building => {
           this.apartments = building.apartments;
           this.loadBookings();
@@ -71,7 +78,7 @@ export class ApartmentListComponent implements OnInit {
       startDate: startDate.toISOString().split('T')[0],
       endDate: endDate.toISOString().split('T')[0]
     };
-
+    // service method
     this.http.post<Booking>('http://localhost:3000/bookings', newBooking).subscribe(
       booking => {
         this.calendarOptions.events = [
@@ -111,7 +118,7 @@ export class ApartmentListComponent implements OnInit {
   private loadBookings(): void {
     const bookingsUrl = `http://localhost:3000/bookings?apartmentId=${this.apartments.map(
       a => a.id).join('&apartmendId=')}`;
-
+    // service method
     this.http.get<Booking[]>(bookingsUrl).subscribe(
       bookings => {
         this.calendarOptions.events = bookings.map(booking => ({
@@ -130,7 +137,7 @@ export class ApartmentListComponent implements OnInit {
   private updateApartmentStatus(apartment: Apartment): void {
     if (!this.buildingId) return;
 
-    this.buildingService.getBuilding(this.buildingId).subscribe(
+    this.buildingService.getBuildingById(this.buildingId).subscribe(
       building => {
         const apartmentIndex = building.apartments.findIndex(a => a.id === apartment.id);
         if (apartmentIndex !== -1) {
@@ -152,5 +159,9 @@ export class ApartmentListComponent implements OnInit {
         console.error(`Error fetching building with ID ${this.buildingId}:`, error);
       }
     );
+  }
+
+  showDetails() {
+    this.router.navigate(['building', this.buildingId]);
   }
 }
