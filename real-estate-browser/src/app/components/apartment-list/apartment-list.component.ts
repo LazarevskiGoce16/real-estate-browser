@@ -5,10 +5,10 @@ import { Apartment } from '../../models/building.model';
 import { Booking } from '../../models/booking.model';
 import { CalendarOptions } from '@fullcalendar/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { switchMap } from 'rxjs';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid'; 
 
 @Component({
   selector: 'app-apartment-list',
@@ -40,7 +40,6 @@ export class ApartmentListComponent implements OnInit {
 
   constructor(
     private buildingService: BuildingService, 
-    private http: HttpClient,
     private router: Router
   ) { }
 
@@ -72,14 +71,27 @@ export class ApartmentListComponent implements OnInit {
   }
 
   bookApartment(apartment: Apartment, startDate: Date, endDate: Date): void {
-    const newBooking: Booking = {
-      id: 0,
-      apartmentId: apartment.id,
-      startDate: startDate.toISOString().split('T')[0],
-      endDate: endDate.toISOString().split('T')[0]
-    };
-    // service method
-    this.http.post<Booking>('http://localhost:3000/bookings', newBooking).subscribe(
+    const buildingId = this.buildingId ?? 0;
+    
+    this.buildingService.getBookings().pipe(
+      switchMap(bookings => {
+        const validIds = bookings.map(b => b.id).filter(id => !isNaN(id));
+        const maxId = validIds.length > 0 ? Math.max(...validIds) : 0;
+        const nextId = maxId + 1;
+        console.log(nextId);
+
+        const newBooking: Booking = {
+          id: nextId,
+          buildingId: buildingId,
+          apartmentId: apartment.id,
+          startDate: startDate.toISOString().split('T')[0],
+          endDate: endDate.toISOString().split('T')[0]
+        };
+
+        console.log(newBooking)
+        return this.buildingService.bookApartment(newBooking, apartment);
+      })
+    ).subscribe(
       booking => {
         this.calendarOptions.events = [
           ...this.calendarOptions.events as any,
@@ -89,15 +101,15 @@ export class ApartmentListComponent implements OnInit {
             end: booking.endDate
           }
         ];
-
-        apartment.status = 'booked';
-        this.updateApartmentStatus(apartment);
-      }, 
+      },
       error => {
         this.errorMessage = 'Error booking apartment';
-        console.error('Error booking apartment:', error);
+        console.error('Error booking apartment', error);
       }
     );
+
+    apartment.status = 'booked';
+    this.updateApartmentStatus(apartment);
   }
 
   buyApartment(apartment: Apartment): void {
@@ -116,12 +128,17 @@ export class ApartmentListComponent implements OnInit {
   }
 
   private loadBookings(): void {
-    const bookingsUrl = `http://localhost:3000/bookings?apartmentId=${this.apartments.map(
-      a => a.id).join('&apartmendId=')}`;
-    // service method
-    this.http.get<Booking[]>(bookingsUrl).subscribe(
-      bookings => {
-        this.calendarOptions.events = bookings.map(booking => ({
+    const apartmentIds = this.apartments.map(a => a.id);
+    if (apartmentIds.length === 0) return;
+
+    this.buildingService.getBookings().subscribe(
+      allBookings => {
+        const filteredBookings = allBookings.filter(booking =>
+          apartmentIds.includes(booking.apartmentId)
+        );
+        console.log(filteredBookings);
+
+        this.calendarOptions.events = filteredBookings.map(booking => ({
           title: `Apartment ${booking.apartmentId} booked`,
           start: booking.startDate,
           end: booking.endDate
@@ -129,7 +146,7 @@ export class ApartmentListComponent implements OnInit {
       },
       error => {
         this.errorMessage = 'Error fetching bookings';
-        console.error('Error fetching bookings:', error);
+        console.error('Error fetching bookings', error);
       }
     );
   }

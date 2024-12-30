@@ -12,19 +12,19 @@
         },
         {
           "id": 2,
-          "status": "available",
+          "status": "booked",
           "bookPrice": 350,
           "buyPrice": 18000
         },
         {
           "id": 3,
-          "status": "booked",
+          "status": "available",
           "bookPrice": 320,
           "buyPrice": 17000
         },
         {
           "id": 4,
-          "status": "booked",
+          "status": "available",
           "bookPrice": 310,
           "buyPrice": 16000
         }
@@ -54,7 +54,7 @@
         },
         {
           "id": 4,
-          "status": "booked",
+          "status": "available",
           "bookPrice": 290,
           "buyPrice": 16000
         }
@@ -72,7 +72,7 @@
         },
         {
           "id": 2,
-          "status": "booked",
+          "status": "available",
           "bookPrice": 340,
           "buyPrice": 19000
         },
@@ -108,7 +108,7 @@
         },
         {
           "id": 3,
-          "status": "booked",
+          "status": "available",
           "bookPrice": 310,
           "buyPrice": 16000
         },
@@ -138,13 +138,13 @@
         },
         {
           "id": 3,
-          "status": "booked",
+          "status": "available",
           "bookPrice": 320,
           "buyPrice": 16000
         },
         {
           "id": 4,
-          "status": "booked",
+          "status": "available",
           "bookPrice": 310,
           "buyPrice": 15500
         }
@@ -153,60 +153,18 @@
   ],
   "bookings": [
     {
-      "id": "1",
+      "id": 1,
+      "buildingId": "1",
       "apartmentId": 1,
+      "startDate": "2024-12-30",
+      "endDate": "2025-01-02"
+    },
+    {
+      "id": 2,
       "buildingId": "1",
-      "startDate": "2024-12-10",
-      "endDate": "2024-12-15"
-    },
-    {
-      "id": "2",
-      "apartmentId": 3,
-      "buildingId": "1",
-      "startDate": "2024-12-10",
-      "endDate": "2024-12-15"
-    },
-    {
-      "id": "3",
-      "apartmentId": 4,
-      "buildingId": "1",
-      "startDate": "2024-12-10",
-      "endDate": "2024-12-15"
-    },
-    {
-      "id": "4",
-      "apartmentId": 4,
-      "buildingId": "2",
-      "startDate": "2024-12-10",
-      "endDate": "2024-12-15"
-    },
-    {
-      "id": "5",
       "apartmentId": 2,
-      "buildingId": "3",
-      "startDate": "2024-12-10",
-      "endDate": "2024-12-15"
-    },
-    {
-      "id": "6",
-      "apartmentId": 3,
-      "buildingId": "4",
-      "startDate": "2024-12-10",
-      "endDate": "2024-12-15"
-    },
-    {
-      "id": "7",
-      "apartmentId": 3,
-      "buildingId": "5",
-      "startDate": "2024-12-10",
-      "endDate": "2024-12-15"
-    },
-    {
-      "id": "8",
-      "apartmentId": 4,
-      "buildingId": "5",
-      "startDate": "2024-12-10",
-      "endDate": "2024-12-15"
+      "startDate": "2024-12-30",
+      "endDate": "2025-01-02"
     }
   ]
 }
