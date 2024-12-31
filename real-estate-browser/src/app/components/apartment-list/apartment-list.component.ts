@@ -128,12 +128,15 @@ export class ApartmentListComponent implements OnInit {
   }
 
   private loadBookings(): void {
+    if (!this.buildingId) return;
+
     const apartmentIds = this.apartments.map(a => a.id);
     if (apartmentIds.length === 0) return;
 
     this.buildingService.getBookings().subscribe(
       allBookings => {
         const filteredBookings = allBookings.filter(booking =>
+          booking.buildingId === this.buildingId && 
           apartmentIds.includes(booking.apartmentId)
         );
         console.log(filteredBookings);
