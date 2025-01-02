@@ -36,7 +36,7 @@
       "apartments": [
         {
           "id": 1,
-          "status": "available",
+          "status": "booked",
           "bookPrice": 250,
           "buyPrice": 14000
         },
@@ -153,18 +153,25 @@
   ],
   "bookings": [
     {
-      "id": 1,
+      "id": "1",
       "buildingId": "1",
       "apartmentId": 1,
       "startDate": "2024-12-30",
       "endDate": "2025-01-02"
     },
     {
-      "id": 2,
+      "id": "2",
       "buildingId": "1",
       "apartmentId": 2,
       "startDate": "2024-12-30",
       "endDate": "2025-01-02"
+    },
+    {
+      "id": 3,
+      "buildingId": "2",
+      "apartmentId": 1,
+      "startDate": "2025-01-02",
+      "endDate": "2025-01-05"
     }
   ]
 }

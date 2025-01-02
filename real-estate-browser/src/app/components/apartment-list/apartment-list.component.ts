@@ -41,7 +41,7 @@ export class ApartmentListComponent implements OnInit {
   constructor(
     private buildingService: BuildingService, 
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initializeCalendarOptions();
@@ -183,5 +183,9 @@ export class ApartmentListComponent implements OnInit {
 
   showDetails() {
     this.router.navigate(['building', this.buildingId]);
+  }
+
+  backToBuildingList() {
+    this.router.navigate(['buildings']);
   }
 }
