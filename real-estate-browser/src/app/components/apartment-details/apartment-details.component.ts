@@ -8,7 +8,6 @@ import { BuildingService } from '../../services/building.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid'; 
-import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-apartment-details',
@@ -72,57 +71,6 @@ export class ApartmentDetailsComponent implements OnInit{
   handleDateSelect(selectInfo: any): void {
     console.log('Date selected:', selectInfo.startStr);
   }
-  
-  addDays(date: Date, days: number): Date {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-  }
-
-  bookApartment(apartment: Apartment, startDate: Date, endDate: Date): void {
-    const buildingId = this.buildingId ?? 0;
-
-    this.buildingService.getBookings().pipe(
-      switchMap(bookings => {
-        const validIds = bookings.map(b => b.id).filter(id => !isNaN(id));
-        const maxId = validIds.length > 0 ? Math.max(...validIds) : 0;
-        const nextId = maxId + 1;
-
-        const newBooking: Booking = {
-          id: nextId,
-          buildingId: buildingId,
-          apartmentId: apartment.id,
-          startDate: startDate.toISOString().split('T')[0],
-          endDate: endDate.toISOString().split('T')[0]
-        };
-
-        return this.buildingService.bookApartment(newBooking, apartment);
-      })
-    ).subscribe(
-      booking => {
-        this.calendarOptions.events = [
-          ...this.calendarOptions.events as any,
-          {
-            title: `Apartment ${booking.apartmentId} booked`,
-            start: booking.startDate,
-            end: booking.endDate
-          }
-        ];
-      },
-      error => {
-        this.errorMessage = 'Error booking apartment';
-        console.error('Error booking apartment', error);
-      }
-    );
-
-    apartment.status = 'booked';
-    this.updateApartmentStatus(apartment);
-  }
-
-  buyApartment(apartment: Apartment): void {
-    apartment.status = 'sold';
-    this.updateApartmentStatus(apartment);
-  }
 
   backToBuildingList() {
     this.router.navigate(['buildings']);
@@ -173,31 +121,5 @@ export class ApartmentDetailsComponent implements OnInit{
         console.error('Error fetching bookings', error);
       }
     );
-  }
-
-  private updateApartmentStatus(apartment: Apartment): void {
-    if (!this.buildingId) return;
-
-    this.buildingService.getBuildingById(this.buildingId).pipe(
-      switchMap(building => {
-        const apartmentIndex = building.apartments.findIndex(a => a.id === apartment.id);
-        if (apartmentIndex !== -1) {
-          throw new Error(
-            `Apartment with ID ${apartment.id} not found in building ${this.buildingId}`
-          );
-        }
-
-        building.apartments[apartmentIndex].status = apartment.status;
-        return this.buildingService.updateBuilding(building);
-      })
-    ).subscribe({
-      next: () => {
-        console.log(`Apartment ${apartment.id} status updated to ${apartment.status}`);
-      },
-      error: error => {
-        this.errorMessage = 'Error updating apartment status';
-        console.error('Error updating apartment status', error);
-      }
-    });
   }
 }

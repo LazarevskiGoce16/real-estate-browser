@@ -1,20 +1,10 @@
 <div class="apartment-list">
     <h2>Apartments</h2>
     <button (click)="showDetails()">Show Details</button>
-    <!-- <button (click)="backToBuildingList()">Building List</button> -->
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngFor="let apartment of apartments" class="apartment-item">
         <p>Apartment {{ apartment.id }} - Status: {{ apartment.status }}</p>
-        <!-- <p>Book price per night: {{ apartment.bookPrice }}$</p> -->
-        <!-- <p>Buying price: {{ apartment.buyPrice }}$</p> -->
         <button (click)="bookApartment(apartment, viewDate, addDays(viewDate, 3))" [disabled]="apartment.status !== 'available'">Book for 3 days</button>
         <button (click)="buyApartment(apartment)" [disabled]="apartment.status !== 'available'">Buy</button>
     </div>
-  
-    <!-- <h3>Booking Calendar</h3>
-    <div class="calendar-container">
-        <full-calendar
-            [options]="calendarOptions">
-        </full-calendar>
-    </div> -->
 </div>
