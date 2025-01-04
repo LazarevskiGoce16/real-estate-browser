@@ -1,8 +1,8 @@
 <div class="apartment-list">
     <h2>Apartments</h2>
-    <button (click)="backToBuildingList()">Building List</button>
+    <button (click)="backToBuildingList()"><span>&larr;</span> Building List</button>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-    <div *ngFor="let apartment of apartments" class="apartment-item">
+    <div *ngFor="let apartment of apartments" class="apartment-item" [ngClass]="getApartmentStatusClass(apartment)">
         <p>Apartment {{ apartment.id }} - Status: {{ apartment.status }}</p>
         <p>Book price per night: {{ apartment.bookPrice }}$</p>
         <p>Buying price: {{ apartment.buyPrice }}$</p>

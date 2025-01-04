@@ -76,6 +76,19 @@ export class ApartmentDetailsComponent implements OnInit{
     this.router.navigate(['buildings']);
   }
 
+  getApartmentStatusClass(apartment: Apartment): string {
+    switch(apartment.status) {
+      case 'available':
+        return 'available';
+      case 'booked':
+        return 'booked';
+      case 'sold':
+        return 'sold';
+      default:
+        return '';
+    }
+  }
+
   private loadBuilding(): void {
     this.buildingService.getBuildingById(this.buildingId!).subscribe(
       building => {
