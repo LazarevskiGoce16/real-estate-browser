@@ -5,11 +5,12 @@ import { Apartment } from '../../models/building.model';
 import { Booking } from '../../models/booking.model';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-apartment-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ModalComponent],
   templateUrl: './apartment-list.component.html',
   styleUrls: ['./apartment-list.component.css']
 })
@@ -21,6 +22,10 @@ export class ApartmentListComponent implements OnInit {
   bookings: Booking[] = [];
   errorMessage: string = '';
   viewDate: Date = new Date();
+
+  selectedApartment?: Apartment;
+  isModalVisible: boolean = false;
+  modalAction: 'book' | 'buy' = 'book';
 
   constructor(
     private buildingService: BuildingService, 
@@ -39,6 +44,31 @@ export class ApartmentListComponent implements OnInit {
         console.error('Error fetching apartments:', error);
       }
     )};
+  }
+
+  openModal(apartment: Apartment, action: 'book' | 'buy'): void {
+    this.selectedApartment = apartment;
+    this.modalAction = action;
+    this.isModalVisible = true;
+  }
+
+  confirmAction(): void {
+    if (this.selectedApartment) {
+      if (this.modalAction === 'book') {
+        this.bookApartment(
+          this.selectedApartment,
+          this.viewDate,
+          this.addDays(this.viewDate, 3)
+        );
+      } else if (this.modalAction === 'buy') {
+        this.buyApartment(this.selectedApartment);
+      }
+      this.isModalVisible = false;
+    }
+  }
+
+  cancelAction(): void {
+    this.isModalVisible = false;
   }
 
   bookApartment(apartment: Apartment, startDate: Date, endDate: Date): void {

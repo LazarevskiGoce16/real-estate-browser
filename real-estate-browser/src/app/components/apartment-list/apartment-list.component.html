@@ -4,7 +4,27 @@
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div *ngFor="let apartment of apartments" class="apartment-item" [ngClass]="getApartmentStatusClass(apartment)">
         <p>Apartment {{ apartment.id }} - Status: {{ apartment.status }}</p>
-        <button class="book-btn" (click)="bookApartment(apartment, viewDate, addDays(viewDate, 3))" [disabled]="apartment.status !== 'available'">Book for 3 days</button>
-        <button class="buy-btn" (click)="buyApartment(apartment)" [disabled]="apartment.status !== 'available'">Buy</button>
+        <button 
+            class="book-btn" 
+            (click)="openModal(apartment, 'book')" 
+            [disabled]="apartment.status !== 'available'">
+            Book for 3 days
+        </button>
+        <button 
+            class="buy-btn" 
+            (click)="openModal(apartment, 'buy')" 
+            [disabled]="apartment.status !== 'available'">
+            Buy
+        </button>
     </div>
+    
+    <app-modal
+        [title]="modalAction === 'book' ? 'Confirm Booking' : 'Confirm Purchase'"
+        [isVisible]="isModalVisible"
+        (confirm)="confirmAction()"
+        (close)="cancelAction()">
+        <p *ngIf="selectedApartment">
+            Are you sure you want to {{ modalAction }} apartment {{ selectedApartment.id }}?
+        </p>
+    </app-modal>
 </div>

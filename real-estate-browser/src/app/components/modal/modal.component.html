@@ -1,0 +1,14 @@
+<div class="modal-backdrop" *ngIf="isVisible" (click)="onClose()"></div>
+    <div class="modal" *ngIf="isVisible">
+        <div class="modal-header">
+            <h3>{{ title }}</h3>
+            <button class="close-btn" (click)="onClose()">×</button>
+        </div>
+        <div class="modal-body">
+            <ng-content></ng-content>
+        </div>
+        <div class="modal-footer">
+            <button class="confirm-btn" (click)="onConfirm()">Confirm</button>
+            <button class="cancel-btn" (click)="onClose()">Cancel</button>
+        </div>
+    </div>
