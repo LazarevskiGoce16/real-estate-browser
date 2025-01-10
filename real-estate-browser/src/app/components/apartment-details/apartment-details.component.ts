@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { Apartment } from '../../models/building.model';
 import { Booking } from '../../models/booking.model';
 import { CalendarOptions } from '@fullcalendar/core/index.js';
 import { BuildingService } from '../../services/building.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid'; 
 
@@ -16,7 +17,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
   templateUrl: './apartment-details.component.html',
   styleUrl: './apartment-details.component.css'
 })
-export class ApartmentDetailsComponent implements OnInit{
+export class ApartmentDetailsComponent implements OnInit, OnDestroy {
   @Input()
   buildingId?: number | undefined = 1;
 
@@ -37,6 +38,8 @@ export class ApartmentDetailsComponent implements OnInit{
     }
   };
 
+  private subscriptions: Subscription = new Subscription();
+
   constructor(
     private buildingService: BuildingService,
     private router: Router,
@@ -45,7 +48,8 @@ export class ApartmentDetailsComponent implements OnInit{
 
   ngOnInit(): void {
     this.initializeCalendarOptions();
-    this.route.paramMap.subscribe(params => {
+
+    const routeSub = this.route.paramMap.subscribe(params => {
       this.buildingId = Number(params.get('id'));
       if (this.buildingId) {
         this.loadBuilding();
@@ -55,6 +59,11 @@ export class ApartmentDetailsComponent implements OnInit{
         return;
       }
     });
+    this.subscriptions.add(routeSub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   initializeCalendarOptions(): void {
@@ -90,7 +99,7 @@ export class ApartmentDetailsComponent implements OnInit{
   }
 
   private loadBuilding(): void {
-    this.buildingService.getBuildingById(this.buildingId!).subscribe(
+    const buildingSub = this.buildingService.getBuildingById(this.buildingId!).subscribe(
       building => {
         this.apartments = building.apartments;
         this.loadBookings();
@@ -100,6 +109,7 @@ export class ApartmentDetailsComponent implements OnInit{
         console.error('Error fetching apartments', error);
       }
     );
+    this.subscriptions.add(buildingSub);
   }
 
   private loadBookings(): void {
@@ -108,7 +118,7 @@ export class ApartmentDetailsComponent implements OnInit{
     const apartmentIds = this.apartments.map(a => a.id);
     if (apartmentIds.length === 0) return;
 
-    this.buildingService.getBookings().subscribe(
+    const bookingsSub = this.buildingService.getBookings().subscribe(
       allBookings => {
         const filteredBookings = allBookings.filter(booking => {
           const matchesBuilding = Number(booking.buildingId) === Number(this.buildingId);
@@ -134,5 +144,6 @@ export class ApartmentDetailsComponent implements OnInit{
         console.error('Error fetching bookings', error);
       }
     );
+    this.subscriptions.add(bookingsSub);
   }
 }
