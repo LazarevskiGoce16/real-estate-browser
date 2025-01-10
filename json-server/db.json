@@ -12,7 +12,7 @@
         },
         {
           "id": 2,
-          "status": "available",
+          "status": "booked",
           "bookPrice": 350,
           "buyPrice": 18000
         },
@@ -24,7 +24,7 @@
         },
         {
           "id": 4,
-          "status": "available",
+          "status": "sold",
           "bookPrice": 310,
           "buyPrice": 16000
         }
@@ -72,7 +72,7 @@
         },
         {
           "id": 2,
-          "status": "available",
+          "status": "booked",
           "bookPrice": 340,
           "buyPrice": 19000
         },
@@ -167,11 +167,25 @@
       "endDate": "2025-01-06"
     },
     {
-      "id": 3,
+      "id": "3",
       "buildingId": "5",
       "apartmentId": 2,
       "startDate": "2025-01-04",
       "endDate": "2025-01-07"
+    },
+    {
+      "id": "4",
+      "buildingId": "3",
+      "apartmentId": 2,
+      "startDate": "2025-01-06",
+      "endDate": "2025-01-09"
+    },
+    {
+      "id": "5",
+      "buildingId": "1",
+      "apartmentId": 2,
+      "startDate": "2025-01-08",
+      "endDate": "2025-01-11"
     }
   ]
 }
